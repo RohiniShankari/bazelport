@@ -1,0 +1,21 @@
+--- a/src/main/java/com/google/devtools/build/lib/metrics/GarbageCollectionMetricsUtils.java
++++ b/src/main/java/com/google/devtools/build/lib/metrics/GarbageCollectionMetricsUtils.java
+@@ -24,6 +24,8 @@
+         || "G1 Old Gen".equals(name)
+         || "PS Old Gen".equals(name)
+         || "Tenured Gen".equals(name)
++        || "tenured-SOA".equals(name)
++        || "tenured-LOA".equals(name)
+         || "Shenandoah".equals(name)
+         || "ZHeap".equals(name);
+   }
+--- a/src/main/java/com/google/devtools/build/lib/runtime/MemoryPressureListener.java
++++ b/src/main/java/com/google/devtools/build/lib/runtime/MemoryPressureListener.java
+@@ -90,6 +90,7 @@
+       for (String name : gcBean.getMemoryPoolNames()) {
+         if (GarbageCollectionMetricsUtils.isTenuredSpace(name)) {
+           builder.add((NotificationEmitter) gcBean);
++          break;
+         }
+       }
+     }
